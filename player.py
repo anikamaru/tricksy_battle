@@ -13,3 +13,10 @@ def show_hand(player):
     print(f"{player['name']}'s hand:")
     for i in range(len(player['hand'])):
         print(f"  {i+1}: {card_str(player['hand'][i])}")
+
+# Function to check if the player has a specific suit in their hand
+def has_suit(player, suit):
+    for card in player['hand']:
+        if card['suit'] == suit:
+            return True
+    return False

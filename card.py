@@ -12,6 +12,17 @@ def make_card(suit, rank):
     # Return dictionary storing suit and rank (value is index, i.e., power of the rank)
     return {'suit': suit, 'rank': rank, 'value': RANKS.index(rank)}
 
-# Return the string representation of a card
+# Function to return the string representation of a card
 def card_str(card):
     return f"{card['rank']} of {card['suit']}"
+
+# Function to compare two cards
+def card_compare(card1, card2):
+    # Compare by rank index
+    v1 = RANKS.index(card1['rank'])
+    v2 = RANKS.index(card2['rank'])
+    # Positive if card1 > card2, negative if card1 < card2, zero if equal
+    if v1 != v2:
+        return v1 - v2
+    # If equal rank, let suit order be the tiebreaker
+    return SUITS.index(card1['suit']) - SUITS.index(card2['suit'])

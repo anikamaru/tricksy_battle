@@ -24,3 +24,9 @@ def deal(deck, count):
     dealt = deck[:count]
     del deck[:count]
     return dealt
+
+# Function to draw the top card from the deck
+def draw(deck):
+    if not deck:
+        return None
+    return deck.pop(0)
