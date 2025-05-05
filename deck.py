@@ -14,3 +14,13 @@ def build_deck():
 # Function to shuffle the deck
 def shuffle_deck(deck):
     random.shuffle(deck)
+
+# Function to deal cards from the deck
+def deal(deck, count):
+    # Check if the count is valid
+    if count > len(deck):
+        raise ValueError("Not enough cards to deal")
+    # Deal the specified number of cards and remove them from the deck
+    dealt = deck[:count]
+    del deck[:count]
+    return dealt
