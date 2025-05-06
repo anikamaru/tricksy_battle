@@ -1,6 +1,7 @@
 import random
-from deck import build_deck, shuffle_deck, deal
-from player import make_player, receive_cards, show_hand
+from deck import build_deck, shuffle_deck, deal, draw
+from player import make_player, receive_cards, show_hand, play_card
+from card import card_str, card_compare
 
 # Function to start the game
 def start_game():
@@ -15,6 +16,37 @@ def start_game():
     leader = players[random.randint(0, 1)]
     # Return a tuple of deck, players, and leader
     return deck, players, leader
+
+# Function for player to play a trick
+def play_trick(deck, players, leader):
+    # Start new round and select the leader to play first
+    print(f"\n{leader['name']} leads this round.")
+    lead = play_card(leader)
+    lead_suit = lead['suit']
+    print(f"{leader['name']} played {card_str(lead)}.")
+    # Select the other player to play their card
+    if leader is players[1]:
+        other = players[0]
+    else:
+        other = players[1]
+    reply = play_card(other, lead_suit)
+    print(f"{other['name']} played {card_str(reply)}.")
+    # Determine the winner of the round
+    if reply['suit'] == lead_suit and card_compare(reply, lead) > 0:
+        winner = other
+    else:
+        winner = leader
+    # Update the winner's score and print the round's result
+    winner['score'] += 1
+    print(f"{winner['name']} wins the trick and now has {winner['score']} point(s).")
+    # Draw the top card from the deck and show it
+    shown = draw(deck)
+    if shown:
+        print(f"Revealed from deck: {card_str(shown)} (no effect on scoring)")
+    else:
+        print("Deck is empty, no card to reveal.")
+    # Return the winner of the round
+    return winner
 
 # Function to deal 4 new cards if each player has 4 cards in hand
 def deal_next(deck, players):
