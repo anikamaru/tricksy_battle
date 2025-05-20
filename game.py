@@ -1,4 +1,6 @@
 import random
+import time
+
 from deck import build_deck, shuffle_deck, deal, draw
 from player import make_player, receive_cards, show_hand, play_card
 from card import card_str, card_compare
@@ -19,8 +21,19 @@ def start_game():
 
 # Function for player to play a trick
 def play_trick(deck, players, leader):
+    # Wait a while before showing the next players' hands
+    time.sleep(0.5)
     # Start new round and select the leader to play first
-    print(f"\n{leader['name']} leads this round.")
+    print(f"\n{leader['name']} leads this round (other player, close your eyes).")
+    # Count down before starting the round
+    time.sleep(0.5)
+    print("Showing hand in ", end='', flush=True)
+    timer = 3
+    while timer > 0:
+        print(f"{timer}... ", end='', flush=True)
+        time.sleep(1)
+        timer -= 1
+    print()
     lead = play_card(leader)
     lead_suit = lead['suit']
     print(f"{leader['name']} played {card_str(lead)}.")
@@ -29,6 +42,18 @@ def play_trick(deck, players, leader):
         other = players[0]
     else:
         other = players[1]
+    # Wait for the other player to play their card
+    time.sleep(0.5)
+    print(f"{other['name']}, your turn to play (leading player, close your eyes).")
+    # Count down before starting the round
+    time.sleep(0.5)
+    print("Showing hand in ", end='', flush=True)
+    timer = 3
+    while timer > 0:
+        print(f"{timer}... ", end='', flush=True)
+        time.sleep(1)
+        timer -= 1
+    print()
     reply = play_card(other, lead_suit)
     print(f"{other['name']} played {card_str(reply)}.")
     # Determine the winner of the round
@@ -38,13 +63,18 @@ def play_trick(deck, players, leader):
         winner = leader
     # Update the winner's score and print the round's result
     winner['score'] += 1
+    # Add a pause before showing the result
+    time.sleep(0.5)
     print(f"{winner['name']} wins the trick and now has {winner['score']} point(s).")
     # Draw the top card from the deck and show it
+    time.sleep(0.5)
     shown = draw(deck)
     if shown:
         print(f"Revealed from deck: {card_str(shown)} (no effect on scoring)")
     else:
         print("Deck is empty, no card to reveal.")
+    # Pause for a moment for dramatic effect
+    time.sleep(0.5)
     # Return the winner of the round
     return winner
 
@@ -99,9 +129,13 @@ def final_results(players):
     # Check if it's a tie
     else:
         print("It's a tie!")
+    # Print the ending time of the game
+    print("Game ended at: " + time.strftime("%H:%M:%S", time.localtime()))
 
 # Function to run the game
 def run_game():
+    # Print the starting time of the game
+    print("Game started at: " + time.strftime("%H:%M:%S", time.localtime()))
     # Start the game and get the initial state
     deck, players, leader = start_game()
     # Count each round till the game ends
