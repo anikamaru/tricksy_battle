@@ -2,7 +2,7 @@ import random
 import time
 
 from deck import build_deck, shuffle_deck, deal, draw
-from player import make_player, receive_cards, show_hand, play_card
+from player import make_player, receive_cards, play_card
 from card import card_str, card_compare
 
 # Function to start the game

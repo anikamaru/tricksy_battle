@@ -8,12 +8,6 @@ def make_player(name):
 def receive_cards(player, cards):
     player['hand'].extend(cards)
 
-# Function to print the player's hand
-def show_hand(player):
-    print(f"{player['name']}'s hand:")
-    for i in range(len(player['hand'])):
-        print(f"  {i+1}: {card_str(player['hand'][i])}")
-
 # Function to check if the player has a specific suit in their hand
 def has_suit(player, suit):
     for card in player['hand']:
@@ -34,7 +28,10 @@ def play_card(player, lead_suit=None):
         valid = list(range(len(hand)))
     # Print the player's hand with valid cards marked
     for i in range(len(hand)):
-        mark = '*' if i in valid else ' '
+        if i in valid:
+            mark = '*'
+        else:
+            mark = ' '
         print(f"{i+1}. {card_str(hand[i])} {mark}")
     # Prompt the player to select a card to play (within the constraints)
     while True:
