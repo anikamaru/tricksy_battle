@@ -144,8 +144,6 @@ def run_game():
         count += 1
         # Print the rounds and players' hands
         print(f"\n-- Round {count} --")
-        for p in players:
-            show_hand(p)
         # Play a trick and determine the winner
         leader = play_trick(deck, players, leader)
         # If 4 cards each, deal 4 new cards
