@@ -112,7 +112,8 @@ def run_game():
         print(f"\n-- Round {count} --")
         for p in players:
             show_hand(p)
-        """ TODO: Implement logic for players to play cards """
+        # Play a trick and determine the winner
+        leader = play_trick(deck, players, leader)
         # If 4 cards each, deal 4 new cards
         deal_next(deck, players)
     # Print the final scores and results after the game ends
