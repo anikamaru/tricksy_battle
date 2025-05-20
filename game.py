@@ -4,6 +4,7 @@ import time
 from deck import build_deck, shuffle_deck, deal, draw
 from player import make_player, receive_cards, play_card
 from card import card_str, card_compare
+from analytics import analyze_history, plot_score_progression
 
 # Function to start the game
 def start_game():
@@ -20,7 +21,7 @@ def start_game():
     return deck, players, leader
 
 # Function for player to play a trick
-def play_trick(deck, players, leader):
+def play_trick(deck, players, leader, history, round_num):
     # Wait a while before showing the next players' hands
     time.sleep(0.5)
     # Start new round and select the leader to play first
@@ -75,6 +76,14 @@ def play_trick(deck, players, leader):
         print("Deck is empty, no card to reveal.")
     # Pause for a moment for dramatic effect
     time.sleep(0.5)
+    # Add the round's result to the history
+    history.append({
+    'round':     round_num,
+    'leader':    leader['name'],
+    'winner':    winner['name'],
+    'p1_score':  players[0]['score'],
+    'p2_score':  players[1]['score']
+    })
     # Return the winner of the round
     return winner
 
@@ -93,7 +102,7 @@ def deal_next(deck, players):
         print("Dealt 4 new cards to each player.")
 
 # Function to check if the game has ended
-def check_end(deck, players):
+def check_end(players):
     # Get the scores of each player
     scores = []
     for p in players:
@@ -108,7 +117,7 @@ def check_end(deck, players):
     return True
 
 # Function to print the final results
-def final_results(players):
+def final_results(players, history):
     # Print the final scores of each player
     p1, p2 = players
     print(f"\nFinal scores -- {p1['name']}: {p1['score']}, {p2['name']}: {p2['score']}")
@@ -129,6 +138,9 @@ def final_results(players):
     # Check if it's a tie
     else:
         print("It's a tie!")
+    # Show the statistics of the game
+    df = analyze_history(history)
+    plot_score_progression(df)
     # Print the ending time of the game
     print("Game ended at: " + time.strftime("%H:%M:%S", time.localtime()))
 
@@ -136,20 +148,22 @@ def final_results(players):
 def run_game():
     # Print the starting time of the game
     print("Game started at: " + time.strftime("%H:%M:%S", time.localtime()))
+    # Initialize stats variables
+    history = []
+    round_num = 0
     # Start the game and get the initial state
     deck, players, leader = start_game()
     # Count each round till the game ends
-    count = 0
-    while not check_end(deck, players):
-        count += 1
-        # Print the rounds and players' hands
-        print(f"\n-- Round {count} --")
+    while not check_end(players):
+        round_num += 1
+        # Print the rounds
+        print(f"\n-- Round {round_num} --")
         # Play a trick and determine the winner
-        leader = play_trick(deck, players, leader)
+        leader = play_trick(deck, players, leader, history, round_num)
         # If 4 cards each, deal 4 new cards
         deal_next(deck, players)
     # Print the final scores and results after the game ends
-    final_results(players)
+    final_results(players, history)
 
 # Call the run game function to start the game
 if __name__ == '__main__':

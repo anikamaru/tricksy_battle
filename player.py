@@ -28,10 +28,7 @@ def play_card(player, lead_suit=None):
         valid = list(range(len(hand)))
     # Print the player's hand with valid cards marked
     for i in range(len(hand)):
-        if i in valid:
-            mark = '*'
-        else:
-            mark = ' '
+        mark = '*' if i in valid else ' '
         print(f"{i+1}. {card_str(hand[i])} {mark}")
     # Prompt the player to select a card to play (within the constraints)
     while True:
