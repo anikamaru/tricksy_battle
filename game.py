@@ -8,6 +8,7 @@ from analytics import analyze_history, plot_score_progression
 
 # Function to start the game
 def start_game():
+    '''start the game, create deck and players, and deal cards'''
     # Create and shuffle the deck   
     deck = build_deck()
     shuffle_deck(deck)
@@ -22,6 +23,7 @@ def start_game():
 
 # Function for player to play a trick
 def play_trick(deck, players, leader, history, round_num):
+    '''play a trick, allowing players to play their cards and determine the winner'''
     # Wait a while before showing the next players' hands
     time.sleep(0.5)
     # Start new round and select the leader to play first
@@ -89,6 +91,7 @@ def play_trick(deck, players, leader, history, round_num):
 
 # Function to deal 4 new cards if each player has 4 cards in hand
 def deal_next(deck, players):
+    '''deal 4 new cards to each player if they have 4 cards in hand'''
     # Check if all players have 4 cards in hand
     all_have_four = True
     for p in players:
@@ -103,6 +106,7 @@ def deal_next(deck, players):
 
 # Function to check if the game has ended
 def check_end(players):
+    '''check if the game has ended'''
     # Get the scores of each player
     scores = []
     for p in players:
@@ -118,6 +122,7 @@ def check_end(players):
 
 # Function to print the final results
 def final_results(players, history):
+    '''print the final results of the game and show statistics'''
     # Print the final scores of each player
     p1, p2 = players
     print(f"\nFinal scores -- {p1['name']}: {p1['score']}, {p2['name']}: {p2['score']}")
@@ -146,6 +151,7 @@ def final_results(players, history):
 
 # Function to run the game
 def run_game():
+    '''run the game, manage tricks and rounds, and print results'''
     # Print the starting time of the game
     print("Game started at: " + time.strftime("%H:%M:%S", time.localtime()))
     # Initialize stats variables
@@ -168,3 +174,17 @@ def run_game():
 # Call the run game function to start the game
 if __name__ == '__main__':
     run_game()
+
+## tests
+
+# start_game() should return a tuple of deck, players, and leader
+
+# play_trick(deck, players, leader, history, round_num) should return the winner of the trick
+
+# deal_next(deck, players) should deal 4 new cards to each player if they have 4 cards in hand
+
+# check_end(players) should return True if the game has ended, False otherwise
+
+# final_results(players, history) should print the final results of the game and show statistics
+
+# run_game() should run the game, manage tricks and rounds, and print results
